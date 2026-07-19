@@ -20,6 +20,10 @@ class SiteConfig(models.Model):
             obj = SiteConfig.objects.create(capacity=10, is_open=True)
         return obj
 
+    class Meta:
+        verbose_name = "تنظیمات سایت"
+        verbose_name_plural = "تنظیمات سایت"
+
 
 class Submission(models.Model):
     full_name = models.CharField(max_length=80, verbose_name="نام و نام خانوادگی")
@@ -30,3 +34,8 @@ class Submission(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.phone}"
+
+    class Meta:
+        verbose_name = "ارسال اطلاعات"
+        verbose_name_plural = "ارسال‌های کاربران"
+        ordering = ["-created_at"]
