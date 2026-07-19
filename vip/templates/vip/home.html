@@ -1,0 +1,758 @@
+{% load static %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>VIP SHOOTER</title>
+
+    <!-- فونت‌های خودِ کارفرما: فایل‌ها را در static/fonts/ بگذار -->
+    <style>
+        /* فارسی (Gramophone) */
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/GramophoneFaNum-Clean.woff2' %}") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+        }
+
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/GramophoneFaNum-Stone.woff2' %}") format("woff2");
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+        }
+
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/GramophoneFaNum-Grunge.woff2' %}") format("woff2");
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+        }
+
+        /* انگلیسی (Montserrat) */
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/Montserrat-Regular.ttf' %}") format("truetype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0000-00FF;
+        }
+
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/Montserrat-SemiBold.ttf' %}") format("truetype");
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0000-00FF;
+        }
+
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/Montserrat-Bold.ttf' %}") format("truetype");
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0000-00FF;
+        }
+
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/Montserrat-ExtraBold.ttf' %}") format("truetype");
+            font-weight: 800;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0000-00FF;
+        }
+
+        @font-face {
+            font-family: "VIP";
+            src:url("{% static 'fonts/Montserrat-Black.ttf' %}") format("truetype");
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0000-00FF;
+        }
+    </style>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --text: #fff;
+            --muted: rgba(255, 255, 255, .72);
+            --line: rgba(255, 255, 255, .12);
+            --card: rgba(0, 0, 0, .58);
+            /* جیگری (نه جیغ) */
+            --accent: #7a0f1b;
+            --radius: 22px;
+        }
+
+        body {
+            margin: 0;
+            font-family: "VIP-FA", "VIP-EN", Tahoma, Arial, sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            background: url("/static/vip/bg.jpg") center/cover fixed no-repeat;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(900px 550px at 50% 15%, rgba(122, 15, 27, .30), rgba(0, 0, 0, .78)),
+                linear-gradient(180deg, rgba(0, 0, 0, .28), rgba(0, 0, 0, .88));
+            z-index: -1;
+        }
+
+        .wrap {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 14px 14px 22px;
+        }
+
+        .appbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            padding: 10px 0 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .barRow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .iconBtn {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(0, 0, 0, .25);
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .brand {
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .hero {
+            border: 1px solid var(--line);
+            background: rgba(0, 0, 0, .30);
+            border-radius: var(--radius);
+            padding: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: -40px -60px auto auto;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(122, 15, 27, .45), rgba(122, 15, 27, 0));
+            transform: rotate(25deg);
+            pointer-events: none;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(255, 255, 255, .06);
+            color: rgba(255, 255, 255, .92);
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        h1 {
+            margin: 10px 0 6px;
+            font-size: 26px;
+            line-height: 1.45;
+            letter-spacing: -.3px;
+        }
+
+        .hero p {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .ctaRow {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 13px 12px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: #fff;
+            font-weight: 900;
+            font-family: inherit;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            border-color: transparent;
+            box-shadow: 0 12px 30px rgba(122, 15, 27, .22);
+        }
+
+        .btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .sectionTitle {
+            margin: 14px 2px 10px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, .88);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hint {
+            font-weight: 700;
+            color: rgba(255, 255, 255, .60);
+            font-size: 12px;
+        }
+
+        .panel {
+            background: rgba(0, 0, 0, .35);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .list {
+            margin: 0;
+            padding: 0 18px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 2.1;
+        }
+
+        .priceBox {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(0, 0, 0, .22);
+            color: #fff;
+        }
+
+        .priceBox b {
+            color: #fff;
+        }
+
+        .slogan {
+            margin-top: 10px;
+            font-weight: 900;
+            font-size: 18px;
+            color: rgba(255, 255, 255, .95);
+        }
+
+        .pay {
+            background: rgba(0, 0, 0, .40);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .pay p {
+            margin: 0 0 10px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .cardNo {
+            direction: ltr;
+            text-align: center;
+            letter-spacing: 1px;
+            font-weight: 900;
+            padding: 12px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, .30);
+            border: 1px solid rgba(255, 255, 255, .12);
+            margin: 10px 0;
+        }
+
+        .owner {
+            text-align: center;
+            color: rgba(255, 255, 255, .75);
+            font-size: 12px;
+            margin-top: -4px;
+        }
+
+        .input,
+        .file {
+            width: 100%;
+            padding: 12px 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(0, 0, 0, .22);
+            color: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .file {
+            padding: 10px;
+        }
+
+        .field {
+            margin-top: 10px;
+        }
+
+        .checkRow {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, .85);
+            font-size: 13px;
+        }
+
+        .checkRow input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .err {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(122, 15, 27, .18);
+            color: #fff;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        footer {
+            margin-top: 14px;
+            background: rgba(0, 0, 0, .45);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 20px;
+            padding: 12px 12px 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footRow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .name {
+            font-weight: 900;
+            font-size: 13px;
+            color: rgba(255, 255, 255, .90);
+        }
+
+        .links {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .iconLink {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .12);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .iconLink svg {
+            width: 18px;
+            height: 18px;
+            fill: #fff;
+            opacity: .92;
+        }
+
+        .made {
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255, 255, 255, .62);
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, .10);
+        }
+
+        /* مودال */
+        .modalMask {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .70);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 999;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(0, 0, 0, .55);
+            backdrop-filter: blur(12px);
+            padding: 16px;
+        }
+
+        .modal h3 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        .modal p {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .modalMask.show {
+            display: flex;
+        }
+
+        /* منوی همبرگری */
+        .sheet {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: -100%;
+            background: rgba(0, 0, 0, .75);
+            border-top: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 22px 22px 0 0;
+            padding: 14px;
+            backdrop-filter: blur(10px);
+            transition: bottom .2s ease;
+            z-index: 1000;
+        }
+
+        .sheet.show {
+            bottom: 0;
+        }
+
+        .sheetBtn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            font-weight: 900;
+            font-family: inherit;
+            margin-top: 10px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .smallFullNote {
+            margin-top: 10px;
+            text-align: center;
+            color: rgba(255, 255, 255, .70);
+            font-size: 12px;
+        }
+
+        .wrap {
+            max-width: 430px;
+            margin: 0 auto;
+            padding: 12px 12px 18px;
+        }
+
+        h1 {
+            font-size: clamp(22px, 6vw, 28px);
+            line-height: 1.5;
+        }
+
+        .hero p,
+        .pay p,
+        .list {
+            font-size: 13.5px;
+            line-height: 2.05;
+        }
+
+        .input,
+        .file,
+        .btn {
+            font-size: 14px;
+        }
+
+        .made a {
+            color: rgba(255, 255, 255, .85);
+            text-decoration: none;
+            font-weight: 900;
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .bookmark {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+        }
+
+        .bookmark svg {
+            width: 16px;
+            height: 16px;
+            fill: rgba(255, 255, 255, .92);
+        }
+
+        .made a {
+            padding: 6px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(255, 255, 255, .06);
+        }
+
+        .sheetBtn.danger {
+            background: var(--accent);
+            border-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <div class="appbar">
+            <div class="barRow">
+                <button class="iconBtn" type="button" onclick="openSheet()">☰</button>
+                <div class="brand">VIP SHOOTER</div>
+                <button class="iconBtn" type="button" onclick="scrollToForm()">✦</button>
+            </div>
+        </div>
+
+        <section class="hero">
+            <span class="pill">پلن نتیجه محور 30 روزه • VIP SHOOTER</span>
+            <h1>ایــده خــود تویــی!</h1>
+            <p>
+                اینجا فقط معرفی پلن + ارسال اطلاعات و رسید پرداخت انجام میشه.
+                بعد از بررسی، در صورت تایید، پشتیبانی ادامه‌ی روند رو خارج از سایت هماهنگ می‌کنه.
+            </p>
+        </section>
+
+        <div id="plan" class="sectionTitle">
+            <span>شرایط پلـــــــــن👇🏻</span>
+            <span class="hint">VIP SHOOTER</span>
+        </div>
+
+        <section class="panel">
+            <div style="font-weight:900; margin-bottom:6px;">پلن نتیجه محور 30 روزه 🎯VIP SHOOTER🎯</div>
+            <ul class="list">
+                <li>جذب فالور نسبت به سایز پیج (بین 2 تا 10k)</li>
+                <li>جذب فالور هدف با توجه به هدف تعیین شده</li>
+                <li>تولید محتوای شخصی‌سازی شده با توجه به تست شخصیت شما</li>
+                <li>آماده‌سازی زیرساخت پیج برای درآمدزایی</li>
+                <li>بررسی روزانه محتوا و اصلاح روند محتوا</li>
+                <li>جلسات هفتگی آموزش و رفع اشکال</li>
+                <li>فرم گزارش و جواب سوالات روزانه</li>
+            </ul>
+
+            <div class="priceBox">
+                ✅ قراره عاشق عاشق محتوا ساختن باشی و به سبک خودت بسازیش.<br>
+                ✅ <b>هزینه پلن یکماهه 19 میلیون و 800 تومان</b> میباشد و فقط افراد واجد شرایط و تایید شده میتونن وارد
+                پلن بشن.<br>
+                • آماده‌ای پیجتو زیر و رو کنی؟
+            </div>
+
+            <div class="slogan">ایــده خــود تویــی!</div>
+        </section>
+
+        <div id="form" class="sectionTitle">
+            <span>پرداخت و ارسال رسید</span>
+            <span class="hint">کارت‌به‌کارت</span>
+        </div>
+
+        <section class="pay">
+            {% if is_full %}
+            <p style="color:rgba(255,255,255,.9)"><b>ظرفیت تکمیل شده است.</b></p>
+            <div class="smallFullNote">در حال حاضر امکان ارسال فرم وجود ندارد.</div>
+            {% else %}
+            <p>پس از واریز، عکس رسید را همین‌جا آپلود کن تا اطلاعاتت برای پشتیبانی ارسال شود.</p>
+
+            <div class="cardNo" id="cardNo">{{ card_number }}</div>
+            <div class="owner">به نام: {{ card_owner }}</div>
+
+            <button class="btn" type="button" onclick="copyCard()">کپی شماره کارت</button>
+            {% endif %}
+
+            {% if form.errors %}
+            <div class="err">
+                لطفاً موارد زیر را اصلاح کن:
+                <div style="margin-top:6px;">
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <div>• {{ error }}</div>
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data" style="margin-top:10px;">
+                {% csrf_token %}
+
+                <div class="field">{{ form.full_name }}</div>
+                <div class="field">{{ form.phone }}</div>
+                <div class="field">{{ form.note }}</div>
+
+                <div class="checkRow">
+                    {{ form.ready }}
+                    <label for="{{ form.ready.id_for_label }}">آماده‌ام (شرایط پلن رو خوندم)</label>
+                </div>
+
+                <div class="field">{{ form.receipt }}</div>
+
+                <button class="btn primary" type="submit" {% if is_full %}disabled{% endif %}>ارسال اطلاعات</button>
+
+                {% if is_full %}
+                <div class="smallFullNote">ظرفیت پر است.</div>
+                {% endif %}
+            </form>
+        </section>
+
+        <footer>
+            <div class="footRow">
+                <div class="name">محمد فریدونی</div>
+                <div class="links">
+                    <a class="iconLink" href="https://t.me/{{ telegram_id }}" target="_blank" rel="noopener"
+                        aria-label="Telegram">
+                        <!-- Telegram SVG -->
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M9.04 15.44 8.7 20.2c.49 0 .7-.21.95-.46l2.28-2.18 4.73 3.46c.87.48 1.49.23 1.72-.8l3.12-14.6h0c.3-1.38-.5-1.92-1.34-1.6L1.7 9.5c-1.32.51-1.3 1.25-.24 1.58l4.82 1.5L17.4 5.7c.52-.34.99-.16.6.18" />
+                        </svg>
+                    </a>
+
+                    <a class="iconLink" href="{{ instagram_url }}" target="_blank" rel="noopener"
+                        aria-label="Instagram">
+                        <!-- Instagram SVG -->
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9z" />
+                            <path d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                            <circle cx="17.6" cy="6.4" r="1.1" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="made">
+                <a href="https://www.instagram.com/vornex01/" target="_blank" rel="noopener">
+                    <span class="bookmark" aria-hidden="true">
+                        <!-- filled bookmark -->
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 3h12a1 1 0 0 1 1 1v18l-7-4-7 4V4a1 1 0 0 1 1-1z" />
+                        </svg>
+                    </span>
+                    ساخته شده توسط Vornex
+                </a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- مودال موفقیت -->
+    <div id="sentModal" class="modalMask {% if sent %}show{% endif %}">
+        <div class="modal">
+            <h3>ارسال شد</h3>
+            <p>اطلاعات شما برای پشتیبانی ارسال شد. بعد از بررسی، در صورت تایید وارد پلن می‌شوید.</p>
+            <button class="btn primary" type="button" onclick="closeModal('sentModal')">باشه</button>
+        </div>
+    </div>
+
+    <!-- مودال ظرفیت پر -->
+    <div id="fullModal" class="modalMask {% if show_full %}show{% endif %}">
+        <div class="modal">
+            <h3>ظرفیت تکمیل شد</h3>
+            <p>{{ closed_message }}</p>
+            <button class="btn primary" type="button" onclick="closeModal('fullModal')">متوجه شدم</button>
+        </div>
+    </div>
+
+    <div id="alreadyModal" class="modalMask {% if already %}show{% endif %}">
+        <div class="modal">
+            <h3>قبلاً ارسال شده</h3>
+            <p>با این شماره تماس قبلاً اطلاعات ثبت شده. اگر نیاز به اصلاح داری، به پشتیبانی پیام بده.</p>
+            <button class="btn primary" type="button" onclick="closeModal('alreadyModal')">باشه</button>
+        </div>
+    </div>
+
+    <!-- Sheet همبرگری -->
+    <div id="sheet" class="sheet">
+        <div style="font-weight:900; margin-bottom:6px;">منو</div>
+        <a class="sheetBtn" href="#plan" onclick="closeSheet()">شرایط پلن</a>
+        <a class="sheetBtn" href="#form" onclick="closeSheet()">ارسال رسید</a>
+        <a class="sheetBtn" href="https://t.me/{{ telegram_id }}" target="_blank" rel="noopener">تلگرام</a>
+        <a class="sheetBtn" href="{{ instagram_url }}" target="_blank" rel="noopener">اینستاگرام</a>
+        <button class="sheetBtn danger" type="button" onclick="closeSheet()">بستن</button>
+    </div>
+
+    <script>
+        function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+        function copyCard() {
+            const t = document.getElementById('cardNo')?.innerText || "";
+            if (!t) return;
+            navigator.clipboard.writeText(t);
+        }
+
+        function scrollToPlan() { document.getElementById('plan').scrollIntoView({ behavior: 'smooth' }); }
+        function scrollToForm() { document.getElementById('form').scrollIntoView({ behavior: 'smooth' }); }
+
+        function openReady() {
+            // فقط اسکرول به فرم؛ چک‌باکس آماده‌ام داخل فرم هست
+            scrollToForm();
+        }
+
+        function openSheet() { document.getElementById('sheet').classList.add('show'); }
+        function closeSheet() { document.getElementById('sheet').classList.remove('show'); }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,394 @@
+@font-face {
+    font-family: 'GramophoneFaNum';
+    src: url('../fonts/GramophoneFaNum-Grunge.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GramophoneFaNum';
+    src: url('../fonts/GramophoneFaNum-Clean.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'GramophoneFaNum';
+    src: url('../fonts/GramophoneFaNum-Stone.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg: #0b0b0e;
+    --surface: rgba(255,255,255,.05);
+    --text: #f2efe9;
+    --muted: rgba(255,255,255,.65);
+    --line: rgba(255,255,255,.08);
+    --accent: #6e1515; /* جیگری */
+    --radius: 22px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'GramophoneFaNum', Tahoma, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    direction: rtl;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url('./images/bg.jpg') center/cover fixed no-repeat;
+    z-index: -2;
+    opacity: 0.18;
+    filter: grayscale(0.2) contrast(1.1);
+}
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11,11,14,.78) 0%, rgba(11,11,14,.55) 40%, rgba(11,11,14,.92) 100%);
+    z-index: -1;
+}
+
+.wrap {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 14px 16px 30px;
+    position: relative;
+}
+
+/* هدر */
+.appbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 10px 0 14px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+}
+.bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.menu-btn {
+    width: 42px; height: 42px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: rgba(0,0,0,.25);
+    color: var(--text);
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+.brand-text {
+    font-weight: 900;
+    letter-spacing: 1px;
+    font-size: 17px;
+    opacity: .95;
+}
+
+/* هیرو */
+.hero {
+    padding: 28px 4px 10px;
+    text-align: center;
+}
+.slogan {
+    font-family: 'GramophoneFaNum', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1.35;
+    letter-spacing: -0.5px;
+    color: #fff;
+    text-shadow: 0 12px 30px rgba(0,0,0,.6);
+    margin-bottom: 6px;
+}
+.sub-brand {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 18px;
+    letter-spacing: .3px;
+}
+.desc-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: right;
+    line-height: 2.1;
+    font-size: 13.5px;
+    color: var(--muted);
+    backdrop-filter: blur(8px);
+}
+.desc-card b, .desc-card strong { color: var(--text); font-weight: 800; }
+.desc-card .red-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    margin-bottom: 6px;
+}
+.desc-card ul { list-style: none; padding: 0; }
+.desc-card li { position: relative; padding-right: 14px; margin-bottom: 6px; }
+.desc-card li::before {
+    content: "•";
+    position: absolute;
+    right: 0;
+    top: 2px;
+    color: var(--accent);
+    font-weight: 900;
+}
+.price-tag {
+    margin-top: 12px;
+    font-weight: 900;
+    color: #fff;
+    font-size: 15px;
+}
+
+/* آماده‌ام */
+.ready-card {
+    margin-top: 18px;
+    background: rgba(0,0,0,.28);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+}
+.ready-check {
+    font-weight: 900;
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.check-icon {
+    width: 22px; height: 22px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 13px;
+}
+.btn-continue {
+    width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(110,21,21,.35);
+    transition: transform .1s ease;
+}
+.btn-continue:active { transform: scale(.98); }
+
+/* فرم */
+.form-wrap {
+    display: none;
+    margin-top: 16px;
+}
+.form-wrap.active { display: block; animation: fadeIn .35s ease; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-label {
+    font-weight: 900;
+    font-size: 13px;
+    color: rgba(255,255,255,.85);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.payment-box {
+    background: rgba(0,0,0,.35);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    backdrop-filter: blur(10px);
+}
+.card-num {
+    direction: ltr;
+    text-align: center;
+    letter-spacing: 1px;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid var(--line);
+    font-weight: 900;
+    font-size: 17px;
+    color: #fff;
+    margin: 8px 0;
+    user-select: all;
+}
+.copy-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.05);
+    color: var(--text);
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.input-field, .file-field {
+    width: 100%;
+    padding: 13px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.06);
+    color: #fff;
+    font-family: inherit;
+    outline: none;
+    margin-bottom: 10px;
+}
+.file-field { padding: 8px; }
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(110,21,21,.35);
+}
+
+/* مودال موفقیت */
+.success-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(11,11,14,.88);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+}
+.success-modal.active { display: flex; }
+.modal-card {
+    background: #16161a;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    text-align: center;
+    max-width: 340px;
+    box-shadow: 0 25px 60px rgba(0,0,0,.6);
+    animation: fadeIn .3s ease;
+}
+.modal-card h3 { font-weight: 900; margin-bottom: 10px; font-size: 18px; }
+.modal-card p { color: var(--muted); font-size: 13px; line-height: 2; }
+
+/* مودال ظرفیت پر */
+.capacity-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(11,11,14,.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(12px);
+}
+.capacity-modal.active { display: flex; }
+.capacity-box {
+    background: #16161a;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 26px 20px;
+    text-align: center;
+    max-width: 320px;
+    box-shadow: 0 20px 50px rgba(110,21,21,.25);
+}
+.capacity-box h2 { font-weight: 900; margin-bottom: 8px; color: #fff; font-size: 20px; }
+.capacity-box p { color: var(--muted); font-size: 13px; line-height: 2; }
+
+/* فوتر */
+footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+.social-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.social-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    transition: background .2s;
+}
+.social-icon:hover { background: rgba(255,255,255,.12); }
+.social-icon svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.name-tag {
+    font-weight: 900;
+    font-size: 13px;
+    color: rgba(255,255,255,.85);
+}
+.made-by {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255,255,255,.35);
+    letter-spacing: .3px;
+}
+.capacity-note {
+    text-align: center;
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+/* غیرفعال کردن فرم وقتی پره */
+.form-disabled {
+    opacity: .35;
+    pointer-events: none;
+    filter: grayscale(.6);
+}
