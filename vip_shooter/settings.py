@@ -83,11 +83,7 @@ TIME_ZONE = "Asia/Tehran"
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
 STATICFILES_DIRS = []
-_root_static = BASE_DIR / "static"
-if _root_static.exists():
-    STATICFILES_DIRS.append(_root_static)
 
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
