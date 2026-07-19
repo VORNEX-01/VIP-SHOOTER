@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn vipshooter.wsgi:application --bind 0.0.0.0:$PORT
+web: sh -c "mkdir -p /app/media && python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn vip_shooter.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 60"
