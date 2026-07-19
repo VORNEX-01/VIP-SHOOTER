@@ -81,9 +81,9 @@ USE_I18N = True
 USE_TZ = True
 TIME_ZONE = "Asia/Tehran"
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = []
+STATICFILES_DIRS = []  
 
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
