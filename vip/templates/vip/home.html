@@ -555,6 +555,50 @@
             background: var(--accent);
             border-color: transparent;
         }
+
+        /* --- UI Fixes --- */
+        .wrap {
+            padding: 14px 14px 20px;
+        }
+
+        .hero {
+            margin-top: 6px;
+        }
+
+        .hero p {
+            margin-bottom: 0;
+        }
+
+        .pay {
+            margin-top: 6px;
+        }
+
+        .cardNo {
+            margin: 12px 0 6px;
+        }
+
+        .owner {
+            margin: 0 0 14px;
+            text-align: center;
+            color: rgba(255, 255, 255, .78);
+            font-size: 12px;
+        }
+
+        .field {
+            margin-top: 12px;
+        }
+
+        .btn.copy {
+            background: rgba(255, 255, 255, .08);
+            border-color: rgba(255, 255, 255, .18);
+            color: rgba(255, 255, 255, .92);
+        }
+
+        .btn.primary {
+            margin-top: 12px;
+        }
+
+        /* دکمه ارسال از بالا فاصله بگیره */
     </style>
 </head>
 
@@ -620,7 +664,7 @@
             <div class="cardNo" id="cardNo">{{ card_number }}</div>
             <div class="owner">به نام: {{ card_owner }}</div>
 
-            <button class="btn" type="button" onclick="copyCard()">کپی شماره کارت</button>
+            <button class="btn copy" type="button" onclick="copyCard()">کپی شماره کارت</button>
             {% endif %}
 
             {% if form.errors %}
