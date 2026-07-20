@@ -10,78 +10,54 @@
 
     <!-- فونت‌های خودِ کارفرما: فایل‌ها را در static/fonts/ بگذار -->
     <style>
-        /* فارسی (Gramophone) */
+        /* Gramophone for Persian */
         @font-face {
-            font-family: "VIP";
+            font-family: "Gramophone";
             src:url("{% static 'vip/fonts/GramophoneFaNum-Clean.woff2' %}") format("woff2");
             font-weight: 400;
             font-style: normal;
             font-display: swap;
-            unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
         }
 
         @font-face {
-            font-family: "VIP";
+            font-family: "Gramophone";
             src:url("{% static 'vip/fonts/GramophoneFaNum-Stone.woff2' %}") format("woff2");
             font-weight: 700;
             font-style: normal;
             font-display: swap;
-            unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
         }
 
         @font-face {
-            font-family: "VIP";
+            font-family: "Gramophone";
             src:url("{% static 'vip/fonts/GramophoneFaNum-Grunge.woff2' %}") format("woff2");
             font-weight: 900;
             font-style: normal;
             font-display: swap;
-            unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
         }
 
-        /* انگلیسی (Montserrat) */
+        /* Montserrat for Latin */
         @font-face {
-            font-family: "VIP";
+            font-family: "MontserratVIP";
             src:url("{% static 'vip/fonts/Montserrat-Regular.ttf' %}") format("truetype");
             font-weight: 400;
             font-style: normal;
             font-display: swap;
-            unicode-range: U+0000-00FF;
         }
 
         @font-face {
-            font-family: "VIP";
-            src:url("{% static 'vip/fonts/Montserrat-SemiBold.ttf' %}") format("truetype");
-            font-weight: 600;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0000-00FF;
-        }
-
-        @font-face {
-            font-family: "VIP";
+            font-family: "MontserratVIP";
             src:url("{% static 'vip/fonts/Montserrat-Bold.ttf' %}") format("truetype");
             font-weight: 700;
             font-style: normal;
             font-display: swap;
-            unicode-range: U+0000-00FF;
         }
 
         @font-face {
-            font-family: "VIP";
-            src:url("{% static 'vip/fonts/Montserrat-ExtraBold.ttf' %}") format("truetype");
-            font-weight: 800;
-            font-style: normal;
-            font-display: swap;
-            unicode-range: U+0000-00FF;
-        }
-
-        @font-face {
-            font-family: "VIP";
+            font-family: "MontserratVIP";
             src:url("{% static 'vip/fonts/Montserrat-Black.ttf' %}") format("truetype");
             font-weight: 900;
             font-style: normal;
             font-display: swap;
-            unicode-range: U+0000-00FF;
         }
     </style>
 
@@ -98,6 +74,18 @@
             /* جیگری (نه جیغ) */
             --accent: #7a0f1b;
             --radius: 22px;
+        }
+
+        html,
+        body {
+            font-family: "Gramophone", "MontserratVIP", Tahoma, Arial, sans-serif;
+            font-weight: 400;
+        }
+
+        /* تیترها که وزن بالا دارن حتماً از گرامافون 900 استفاده کنن */
+        h1,
+        .brand {
+            font-weight: 900;
         }
 
         body {
