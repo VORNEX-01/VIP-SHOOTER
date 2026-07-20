@@ -70,8 +70,10 @@ USE_I18N = True
 USE_TZ = True
 TIME_ZONE = "Asia/Tehran"
 
+# --- STATIC / MEDIA (Railway-safe) ---
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
 STATICFILES_DIRS = []
 
 STORAGES = {
