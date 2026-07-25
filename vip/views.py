@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import SiteConfig, Submission, InviteLink
 from .forms import SubmissionForm
+import textwrap
 
 CARD_NUMBER = "6219861996348339"
 CARD_OWNER = "محمد فریدونی"
@@ -20,6 +21,18 @@ PLAN_BULLETS = [
     "در نهایت باید بدونی که این دوره برای افراد مصمم طراحی شده و در صورت عدم تلاش یا عدم عملی کردن مسیر اجرایی ،هیچگونه کمکی از من برای رشد پیج شما برنخواهد آمد و مسئولیتی بابت عدم اراده شما نخواهم پذیرفت.",
 ]
 
+COMMIT_TEXT_TEMPLATE = textwrap.dedent("""\
+ اینجانب ([نام و نام خانوادگی]) ، با آگاهی کامل از شرایط و نحوه برگزاری پلن VIP
+                کوچینگ 30روزه، در سلامت کامل جسمی و روحی و بدون هیچ‌گونه اجبار یا فشاری، با رضایت و اختیار شخصی خودم در
+                این پلن شرکت می‌کنم.
+
+                می‌دونم که در این دوره، آموزش‌ها، راهنمایی‌ها و مسیر لازم برای رشد و بهبود پیجم در اختیارم قرار می‌گیره
+                و نتیجه گرفتن از این مسیر، به میزان تلاش، پیگیری و اجرای درست آموزش‌ها توسط خودم بستگی داره. بنابراین
+                می‌دونم که مسئولیت اجرای آموزش‌ها و اقداماتی که برای رشد پیجم لازمه، بر عهده خودمه و اگر در اجرای این
+                مسیر کوتاهی کنم یا آموزش‌ها رو به‌درستی انجام ندم، مسئولیت نتیجه نگرفتن یا عدم دستیابی به نتیجه مطلوب بر
+                عهده خودم خواهد بود و این موضوع به معنای عدم تعهد یا کوتاهی از سمت برگزارکننده نیست.
+""").strip()
+
 def home(request, token=None):
     cfg = SiteConfig.get()
 
@@ -31,6 +44,9 @@ def home(request, token=None):
 
     invite_status = "ok"
     invite_obj = None
+
+    name_for_text = last_name.strip() if last_name else "([نام و نام خانوادگی])"
+    commit_text = COMMIT_TEXT_TEMPLATE.format(name=name_for_text)
 
     # گیت لینک اختصاصی
     if token is not None:
@@ -105,4 +121,6 @@ def home(request, token=None):
         "plan_bullets": PLAN_BULLETS,
         "last_name": last_name,
         "locked": locked,
+
+        "commit_text": commit_text,
     })
