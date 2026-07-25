@@ -560,14 +560,17 @@
             transform: translateX(-50%);
             bottom: 18px;
             z-index: 2000;
-            background: rgba(0, 0, 0, .70);
-            border: 1px solid rgba(255, 255, 255, .14);
+
+            background: rgba(122, 15, 27, .92);
+            border: 1px solid rgba(255, 255, 255, .18);
             color: #fff;
-            padding: 10px 12px;
+
+            padding: 11px 14px;
             border-radius: 14px;
             font-weight: 900;
-            font-size: 13px;
+            font-size: 13.5px;
             display: none;
+            box-shadow: 0 12px 35px rgba(122, 15, 27, .28);
             backdrop-filter: blur(10px);
         }
 
@@ -749,9 +752,9 @@
                 خواهد شد.
             </div>
 
-            {% if is_full %}
-            <div class="smallNote" style="margin-top:12px; font-weight:900;">ظرفیت تکمیل شده است.</div>
-            <div class="smallNote">در حال حاضر امکان ارسال فرم وجود ندارد.</div>
+            {% if locked %}
+            <div class="smallNote" style="margin-top:12px; font-weight:900;">در حال حاضر امکان ثبت اطلاعات وجود ندارد.
+            </div>
             {% else %}
             <div class="cardNo" id="cardNo">{{ card_number }}</div>
             <div class="owner">به نام: {{ card_owner }}</div>
@@ -784,7 +787,7 @@
                     <img id="receiptPreview" class="uploadPreview" alt="پیش‌نمایش رسید">
                 </div>
 
-                <button class="btn primary" type="submit" {% if is_full %}disabled{% endif %}>ارسال اطلاعات</button>
+                <button class="btn primary" type="submit" {% if locked %}disabled{% endif %}>ارسال اطلاعات</button>
 
                 {% if already %}
                 <div class="smallNote">با این شماره تماس قبلاً ثبت شده است.</div>
@@ -826,7 +829,7 @@
                             <path d="M6 3h12a1 1 0 0 1 1 1v18l-7-4-7 4V4a1 1 0 0 1 1-1z" />
                         </svg>
                     </span>
-                    ساخته شده توسط Vornex
+                    ساخته شده توسط VORNEX
                 </a>
             </div>
         </footer>
@@ -873,13 +876,31 @@
     <div id="sheet" class="sheet">
         <div style="font-weight:900; margin-bottom:6px;">منو</div>
         <a class="sheetBtn" href="#form" onclick="closeSheet()">پرداخت و ارسال رسید</a>
-        <a class="sheetBtn" href="https://t.me/{{ telegram_id }}" target="_blank" rel="noopener">تلگرام محمد فریدونی</a>
+        <a class="sheetBtn" href="https://t.me/{{ telegram_id }}" target="_blank" rel="noopener">پشتیبانی</a>
         <a class="sheetBtn" href="{{ instagram_url }}" target="_blank" rel="noopener">اینستاگرام محمدفریدونی</a>
         <a class="sheetBtn" href="https://www.instagram.com/vornex01" target="_blank" rel="noopener">سازنده سایت</a>
         <button class="sheetBtn danger" type="button" onclick="closeSheet()">بستن</button>
     </div>
 
-    <div id="toast" class="toast">کپی شد</div>
+    <div id="toast" class="toast"></div>
+
+    <div id="expiredModal" class="modalMask {% if show_expired %}show{% endif %}">
+        <div class="modal">
+            <h3>لینک ثبت‌نام معتبر نیست</h3>
+            <p>
+                {% if invite_status == "missing" %}
+                لطفاً فقط از طریق لینک اختصاصی وارد شوید.
+                {% elif invite_status == "invalid" %}
+                این لینک اشتباه است.
+                {% elif invite_status == "expired" %}
+                زمان لینک شما به پایان رسیده است.
+                {% elif invite_status == "used" %}
+                این لینک قبلاً استفاده شده است.
+                {% endif %}
+            </p>
+            <button class="btn primary" type="button" onclick="closeModal('expiredModal')">متوجه شدم</button>
+        </div>
+    </div>
 
     <script>
         function closeModal(id) { document.getElementById(id).classList.remove('show'); }

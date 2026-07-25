@@ -1,13 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import SiteConfig, Submission
+from django.utils import timezone
+from .models import SiteConfig, Submission, InviteLink
 from .forms import SubmissionForm
 
 CARD_NUMBER = "6219861996348339"
 CARD_OWNER = "محمد فریدونی"
-
-TELEGRAM_ID_PERSONAL = "Mohamadfereidouny"
-INSTAGRAM_URL_PERSONAL = "https://www.instagram.com/mohamadfereidouny?igsh=dHFmNnVmZzdwbHA="
-TELEGRAM_SHOOTER_VIP = "SHOOTER_VIP"
 
 PLAN_PRICE = "19 میلیون و 800 هزار تومان"
 
@@ -23,52 +20,89 @@ PLAN_BULLETS = [
     "در نهایت باید بدونی که این دوره برای افراد مصمم طراحی شده و در صورت عدم تلاش یا عدم عملی کردن مسیر اجرایی ،هیچگونه کمکی از من برای رشد پیج شما برنخواهد آمد و مسئولیتی بابت عدم اراده شما نخواهم پذیرفت.",
 ]
 
-def home(request):
+def home(request, token=None):
     cfg = SiteConfig.get()
+
     used = Submission.objects.count()
     is_full = (used >= cfg.capacity) or (not cfg.is_open)
 
     sent = request.GET.get("sent") == "1"
     already = request.GET.get("already") == "1"
-    show_full = (request.GET.get("full") == "1") or is_full
 
-    last_name = request.session.get("last_full_name", "")
+    invite_status = "ok"
+    invite_obj = None
+
+    # گیت لینک اختصاصی
+    if token is not None:
+        try:
+            invite_obj = InviteLink.objects.get(token=token)
+        except InviteLink.DoesNotExist:
+            invite_status = "invalid"
+        else:
+            if invite_obj.is_used:
+                invite_status = "used"
+            elif invite_obj.is_expired:
+                invite_status = "expired"
+            else:
+                invite_status = "ok"
+    else:
+        # اگر بخوای سایت فقط با لینک کار کنه اینو فعال کن:
+        invite_status = "missing"
+
+    locked = is_full or (invite_status in ["missing", "invalid", "expired", "used"])
 
     if request.method == "POST":
-        if is_full:
-            return redirect("/?full=1")
+        if locked:
+            return redirect(request.path + "?full=1" if is_full else request.path + "?expired=1")
 
         form = SubmissionForm(request.POST, request.FILES)
         if form.is_valid():
             phone = form.cleaned_data["phone"].strip()
 
             if Submission.objects.filter(phone=phone).exists():
-                return redirect("/?already=1")
+                return redirect(request.path + "?already=1")
 
-            obj = form.save()
+            obj = form.save(commit=False)
+            obj.invite = invite_obj
+            obj.save()
+
+            # لینک مصرف شود
+            if invite_obj:
+                invite_obj.is_used = True
+                invite_obj.used_at = timezone.now()
+                invite_obj.save(update_fields=["is_used", "used_at"])
+
             request.session["last_full_name"] = obj.full_name
-            return redirect("/?sent=1")
+            return redirect(request.path + "?sent=1")
     else:
         form = SubmissionForm()
+
+    show_full = (request.GET.get("full") == "1") or is_full
+    show_expired = (request.GET.get("expired") == "1") or (invite_status in ["missing", "invalid", "expired", "used"])
+
+    last_name = request.session.get("last_full_name", "")
 
     return render(request, "vip/home.html", {
         "form": form,
         "sent": sent,
         "already": already,
+
         "is_full": is_full,
         "show_full": show_full,
         "closed_message": cfg.closed_message,
-        "capacity": cfg.capacity,
-        "used": used,
+
+        "invite_status": invite_status,
+        "show_expired": show_expired,
 
         "card_number": CARD_NUMBER,
         "card_owner": CARD_OWNER,
 
-        "telegram_id": TELEGRAM_ID_PERSONAL,
-        "instagram_url": INSTAGRAM_URL_PERSONAL,
+        "telegram_id": cfg.telegram_id,
+        "instagram_url": cfg.instagram_url,
+        "telegram_shooter_vip": cfg.telegram_shooter_vip,
 
-        "telegram_shooter_vip": TELEGRAM_SHOOTER_VIP,
         "plan_price": PLAN_PRICE,
         "plan_bullets": PLAN_BULLETS,
         "last_name": last_name,
+        "locked": locked,
     })
