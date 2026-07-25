@@ -1,24 +1,23 @@
-# vip/forms.py
 from django import forms
 from .models import Submission
 
 MAX_RECEIPT_MB = 3
 
 class SubmissionForm(forms.ModelForm):
-    ready = forms.BooleanField(required=True, label="آماده‌ام")
+    accept = forms.BooleanField(required=True, label="شرایط پلن رو خواندم و می‌پذیرم")
 
     class Meta:
         model = Submission
-        fields = ["full_name", "phone", "note", "receipt"]
+        fields = ["full_name", "phone", "national_id", "receipt"]
         widgets = {
             "full_name": forms.TextInput(attrs={"class":"input", "placeholder":"نام و نام خانوادگی"}),
-            "phone": forms.TextInput(attrs={"class":"input", "placeholder":"شماره تماس", "inputmode":"tel"}),
-            "note": forms.TextInput(attrs={"class":"input", "placeholder":"توضیحات (اختیاری)"}),
+            "phone": forms.TextInput(attrs={"class":"input", "placeholder":"شماره تماس (ضروری)", "inputmode":"tel"}),
+            "national_id": forms.TextInput(attrs={"class":"input", "placeholder":"کد ملی (ضروری)", "inputmode":"numeric"}),
         }
 
     receipt = forms.ImageField(required=True, widget=forms.ClearableFileInput(attrs={
         "class":"file",
-        "accept":"image/*"
+        "accept":"image/*",
     }))
 
     def clean_receipt(self):
