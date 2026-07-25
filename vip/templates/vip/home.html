@@ -574,6 +574,128 @@
         .toast.show {
             display: block;
         }
+
+        /* ===== Modal polish (جمع‌وجور + اسکرول‌دار) ===== */
+        .modalMask {
+            padding: 16px;
+            align-items: flex-start;
+            /* بالا نچسبه */
+        }
+
+        .modal {
+            margin: 24px auto;
+            /* فاصله از بالا/پایین */
+            max-height: calc(100dvh - 48px);
+            /* بلند نشه بیرون بزنه */
+            overflow: auto;
+            /* اسکرول داخلی */
+            padding: 16px 16px 14px;
+            border-radius: 20px;
+        }
+
+        .modal h3 {
+            font-size: 19px;
+            margin: 0 0 8px;
+        }
+
+        .modal p {
+            font-size: 14px;
+            line-height: 2.05;
+            margin: 0 0 12px;
+        }
+
+        /* متن تعهد */
+        .copyBox {
+            margin-top: 0;
+            max-height: 190px;
+            overflow: auto;
+            font-size: 13.5px;
+            line-height: 2.05;
+        }
+
+        /* دکمه‌های مودال: فاصله‌دار و مرتب */
+        .modalActions {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .modalActions .btn,
+        .modalActions .sheetBtn {
+            margin: 0;
+            /* حذف چسبندگی */
+        }
+
+        /* هشدار مهم (اسکرین‌شات) */
+        .warnBox {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 193, 7, .35);
+            background: rgba(255, 193, 7, .10);
+            color: #ffe9a6;
+            font-size: 13.5px;
+            line-height: 2;
+            font-weight: 800;
+        }
+
+        .warnBox .ico {
+            flex: 0 0 auto;
+            width: 22px;
+            height: 22px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: rgba(255, 193, 7, .18);
+            border: 1px solid rgba(255, 193, 7, .35);
+            font-size: 13px;
+        }
+
+        /* ===== Form clarity (که کاربر گیج نشه) ===== */
+        .formSteps {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stepRow {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .10);
+            background: rgba(255, 255, 255, .05);
+            font-size: 13.5px;
+            line-height: 1.9;
+        }
+
+        .stepNum {
+            flex: 0 0 auto;
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            background: rgba(122, 15, 27, .35);
+            border: 1px solid rgba(255, 255, 255, .14);
+            font-weight: 900;
+            font-size: 12.5px;
+        }
+
+        .fieldLabel {
+            margin: 14px 0 6px;
+            font-size: 13.5px;
+            color: rgba(255, 255, 255, .85);
+            font-weight: 800;
+        }
+
+        .req {
+            color: #ff9b9b;
+        }
     </style>
 </head>
 
@@ -614,6 +736,12 @@
         </div>
 
         <section class="pay" id="form">
+            <div class="formSteps">
+                <div class="stepRow"><span class="stepNum">۱</span> شماره کارت را کپی کنید و مبلغ را واریز کنید.</div>
+                <div class="stepRow"><span class="stepNum">۲</span> فرم زیر را کامل کنید (نام، شماره تماس، کد ملی).
+                </div>
+                <div class="stepRow"><span class="stepNum">۳</span> عکس رسید را آپلود و «ارسال اطلاعات» را بزنید.</div>
+            </div>
             <div class="priceBox">
                 • بهای این پلن 30 روزه : <b>{{ plan_price }}</b> می باشد.<br>
                 • عکس رسید واریزی باید در کادر مشخص شده آپلود شود.<br>
@@ -708,11 +836,11 @@
     <!-- مودال بعد از ارسال -->
     <div id="sentModal" class="modalMask {% if sent %}show{% endif %}">
         <div class="modal">
-            <h3>مرحله بعد</h3>
+            <h3>مرحله بعد (مهم)</h3>
+
             <p>
-                لطفا عکس رسید واریزی + یک ویدیو سلفی از چهره خودتون با گفتن متن زیر رو به آیدی تلگرام
-                <b>t.me/{{ telegram_shooter_vip }}</b>
-                ارسال کنید.
+                لطفاً <b>عکس رسید واریزی</b> + یک <b>ویدیو سلفی</b> از چهره خودتون با گفتن متن زیر را به آیدی تلگرام
+                <b>t.me/{{ telegram_shooter_vip }}</b> ارسال کنید.
             </p>
 
             <div class="copyBox" id="commitText">
@@ -727,12 +855,17 @@
                 عهده خودم خواهد بود و این موضوع به معنای عدم تعهد یا کوتاهی از سمت برگزارکننده نیست.
             </div>
 
-            <button class="btn copy" type="button" onclick="copyCommitText()">کپی متن</button>
-            <a class="sheetBtn" href="https://t.me/{{ telegram_shooter_vip }}" target="_blank" rel="noopener">رفتن به
-                تلگرام</a>
+            <div class="warnBox">
+                <span class="ico">!</span>
+                <span>قبل از بستن این پنجره، حتماً از این متن <b>اسکرین‌شات</b> بگیرید یا آن را کپی کنید.</span>
+            </div>
 
-            <div class="smallNote">قبل از خروج، در صورت نیاز اسکرین‌شات بگیر.</div>
-            <button class="btn primary" type="button" onclick="closeModal('sentModal')">متوجه شدم</button>
+            <div class="modalActions">
+                <button class="btn copy" type="button" onclick="copyCommitText()">کپی متن تعهد</button>
+                <a class="sheetBtn" href="https://t.me/{{ telegram_shooter_vip }}" target="_blank" rel="noopener">رفتن
+                    به تلگرام</a>
+                <button class="btn primary" type="button" onclick="closeModal('sentModal')">متوجه شدم</button>
+            </div>
         </div>
     </div>
 
@@ -741,7 +874,8 @@
         <div style="font-weight:900; margin-bottom:6px;">منو</div>
         <a class="sheetBtn" href="#form" onclick="closeSheet()">پرداخت و ارسال رسید</a>
         <a class="sheetBtn" href="https://t.me/{{ telegram_id }}" target="_blank" rel="noopener">تلگرام محمد فریدونی</a>
-        <a class="sheetBtn" href="{{ instagram_url }}" target="_blank" rel="noopener">اینستاگرام</a>
+        <a class="sheetBtn" href="{{ instagram_url }}" target="_blank" rel="noopener">اینستاگرام محمدفریدونی</a>
+        <a class="sheetBtn" href="https://www.instagram.com/vornex01" target="_blank" rel="noopener">سازنده سایت</a>
         <button class="sheetBtn danger" type="button" onclick="closeSheet()">بستن</button>
     </div>
 
