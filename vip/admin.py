@@ -22,7 +22,7 @@ class InviteLinkAdmin(admin.ModelAdmin):
 
     def link_path(self, obj):
         # لینک نسبی؛ دامنه رو خودت می‌چسبونی
-        return format_html('<code>/i/{}/</code>', obj.token)
+        return format_html('<code>https://vip-shooter.up.railway.app/user/{}/</code>', obj.token)
     link_path.short_description = "لینک"
 
 @admin.register(Submission)
