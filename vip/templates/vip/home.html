@@ -846,12 +846,11 @@
 
             <p>
                 لطفاً یک <b>ویدیو سلفی</b> از چهره خودتون با گفتن متن زیر را به آیدی تلگرام
-                <b><a href="https://t.me/SHOOTER_VIP" target="_blank" rel="noopener noreferrer" style="color: aqua;">@{{ telegram_shooter_vip }}</a></b> ارسال کنید.
+                <b><a href="https://t.me/SHOOTER_VIP" target="_blank" rel="noopener noreferrer" style="color: aqua;">@{{
+                        telegram_shooter_vip }}</a></b> ارسال کنید.
             </p>
 
-            <div class="copyBox" id="commitText">
-                {{ commit_text|default:"" }}
-            </div>
+            <pre class="copyBox" id="commitText">{{ commit_text|default:"" }}</pre>
 
             <div class="warnBox">
                 <span class="ico">!</span>
@@ -863,8 +862,10 @@
             </p>
 
             <div class="modalActions">
-                <button class="btn copy" type="button" onclick="copyCommitText()" style="background-color: #7a0f1b;">کپی متن تعهد</button>
-                <a class="sheetBtn danger" href="https://t.me/{{ telegram_shooter_vip }}" target="_blank" rel="noopener">
+                <button class="btn copy" type="button" onclick="copyCommitText()" style="background-color: #7a0f1b;">کپی
+                    متن تعهد</button>
+                <a class="sheetBtn danger" href="https://t.me/{{ telegram_shooter_vip }}" target="_blank"
+                    rel="noopener">
                     رفتن به تلگرام (پشتیبانی)
                 </a>
             </div>
