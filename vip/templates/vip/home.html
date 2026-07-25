@@ -702,6 +702,28 @@
         .req {
             color: #ff9b9b;
         }
+
+        /* Modal content bigger (buttons unchanged) */
+        .modal h3 {
+            font-size: 20px;
+        }
+
+        .modal p {
+            font-size: 15.5px;
+            line-height: 2.1;
+        }
+
+        .copyBox {
+            font-size: 14.8px;
+            line-height: 2.15;
+            max-height: 240px;
+            /* یه کم بزرگ‌تر */
+        }
+
+        .warnBox {
+            font-size: 14.5px;
+            line-height: 2.1;
+        }
     </style>
 </head>
 
@@ -846,8 +868,8 @@
 
             <p>
                 لطفاً یک <b>ویدیو سلفی</b> از چهره خودتون با گفتن متن زیر را به آیدی تلگرام
-                <b><a href="https://t.me/SHOOTER_VIP" target="_blank" rel="noopener noreferrer" style="color: aqua;">@{{
-                        telegram_shooter_vip }}</a></b> ارسال کنید.
+                <b><a href="https://t.me/SHOOTER_VIP" target="_blank" rel="noopener noreferrer" style="color: aqua;">{{
+                        telegram_shooter_vip }}@</a></b> ارسال کنید.
             </p>
 
             <pre class="copyBox" id="commitText">{{ commit_text|default:"" }}</pre>
